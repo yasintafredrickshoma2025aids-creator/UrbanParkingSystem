@@ -1,0 +1,81 @@
+### Add a parking slot
+POST http://localhost:8080/parking-slots
+Content-Type: application/json
+
+{
+  "slotNumber": "A01",
+  "floor": "F1",
+  "status": "AVAILABLE"
+}
+
+
+### Get all parking slots
+GET http://localhost:8080/parking-slots
+
+
+### Get parking slot by ID
+GET http://localhost:8080/parking-slots/1
+
+
+### Delete parking slot by ID
+DELETE http://localhost:8080/parking-slots/1
+
+
+### Add a new vehicle
+POST http://localhost:8080/vehicles
+Content-Type: application/json
+
+{
+  "registrationNumber": "TN37AB1234",
+  "vehicleType": "CAR",
+  "ownerName": "Arun"
+}
+
+
+### Get all vehicles
+GET http://localhost:8080/vehicles
+
+
+### Get vehicle by ID
+GET http://localhost:8080/vehicles/1
+
+
+### Delete vehicle by ID
+DELETE http://localhost:8080/vehicles/1
+### Create an available parking slot
+POST http://localhost:8080/parking-slots
+Content-Type: application/json
+
+{
+  "slotNumber": "A02",
+  "floor": "F1",
+  "status": "AVAILABLE"
+}
+### Retrieve vehicle
+POST http://localhost:8080/parking-slots/retrieve/2
+### Delete duplicate slot 3
+DELETE http://localhost:8080/parking-slots/3
+
+### Delete duplicate slot 5
+DELETE http://localhost:8080/parking-slots/5
+
+### Delete duplicate slot 6
+DELETE http://localhost:8080/parking-slots/6
+
+### Delete duplicate slot 7
+DELETE http://localhost:8080/parking-slots/7
+
+### Delete duplicate slot 8
+DELETE http://localhost:8080/parking-slots/8
+
+### Delete duplicate slot 10
+DELETE http://localhost:8080/parking-slots/10
+### Add second vehicle
+POST http://localhost:8080/vehicles
+Content-Type: application/json
+
+{
+  "registrationNumber": "TN37CD5678",
+  "vehicleType": "CAR",
+  "ownerName": "Kumar"
+}
