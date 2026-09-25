@@ -1,81 +1,160 @@
-### Add a parking slot
-POST http://localhost:8080/parking-slots
-Content-Type: application/json
-
-{
-  "slotNumber": "A01",
-  "floor": "F1",
-  "status": "AVAILABLE"
-}
+### =========================================================
+### URBAN AUTOMATED VERTICAL DECK PARKING SYSTEM
+### =========================================================
+### Safe API Demo / Verification File
+### =========================================================
 
 
-### Get all parking slots
-GET http://localhost:8080/parking-slots
+### =========================================================
+### 1. VEHICLES
+### =========================================================
 
-
-### Get parking slot by ID
-GET http://localhost:8080/parking-slots/1
-
-
-### Delete parking slot by ID
-DELETE http://localhost:8080/parking-slots/1
-
-
-### Add a new vehicle
-POST http://localhost:8080/vehicles
-Content-Type: application/json
-
-{
-  "registrationNumber": "TN37AB1234",
-  "vehicleType": "CAR",
-  "ownerName": "Arun"
-}
-
-
-### Get all vehicles
+### Get All Vehicles
 GET http://localhost:8080/vehicles
 
 
-### Get vehicle by ID
-GET http://localhost:8080/vehicles/1
+### Get Vehicle By ID
+GET http://localhost:8080/vehicles/2
 
 
-### Delete vehicle by ID
-DELETE http://localhost:8080/vehicles/1
-### Create an available parking slot
-POST http://localhost:8080/parking-slots
-Content-Type: application/json
+### =========================================================
+### 2. PARKING SLOTS
+### =========================================================
 
-{
-  "slotNumber": "A02",
-  "floor": "F1",
-  "status": "AVAILABLE"
-}
-### Retrieve vehicle
-POST http://localhost:8080/parking-slots/retrieve/2
-### Delete duplicate slot 3
-DELETE http://localhost:8080/parking-slots/3
+### Get All Parking Slots
+GET http://localhost:8080/parking-slots
 
-### Delete duplicate slot 5
-DELETE http://localhost:8080/parking-slots/5
 
-### Delete duplicate slot 6
-DELETE http://localhost:8080/parking-slots/6
+### Get Parking Slot By ID
+GET http://localhost:8080/parking-slots/2
 
-### Delete duplicate slot 7
-DELETE http://localhost:8080/parking-slots/7
 
-### Delete duplicate slot 8
-DELETE http://localhost:8080/parking-slots/8
+### =========================================================
+### 3. PARKING SESSIONS
+### =========================================================
 
-### Delete duplicate slot 10
-DELETE http://localhost:8080/parking-slots/10
-### Add second vehicle
-POST http://localhost:8080/vehicles
-Content-Type: application/json
+### Get All Parking Sessions
+GET http://localhost:8080/parking-sessions
 
-{
-  "registrationNumber": "TN37CD5678",
-  "vehicleType": "CAR",
-  "ownerName": "Kumar"
-}
+
+### Get Parking Session By ID
+GET http://localhost:8080/parking-sessions/1
+
+
+### Get Parking Session 4
+GET http://localhost:8080/parking-sessions/4
+
+
+### =========================================================
+### 4. PARKING TARIFF
+### =========================================================
+
+### Get All Parking Tariffs
+GET http://localhost:8080/parking-tariffs
+
+
+### =========================================================
+### 5. PARKING INVOICES
+### =========================================================
+
+### Get All Parking Invoices
+GET http://localhost:8080/parking-invoices
+
+
+### =========================================================
+### 6. CUSTOMERS
+### =========================================================
+
+### Get All Customers
+GET http://localhost:8080/customers
+
+
+### =========================================================
+### 7. PARKING LEASES
+### =========================================================
+
+### Get All Parking Leases
+GET http://localhost:8080/parking-leases
+
+
+### =========================================================
+### 8. ROBOTIC SHUTTLES
+### =========================================================
+
+### Get All Robotic Shuttles
+GET http://localhost:8080/robotic-shuttles
+
+
+### =========================================================
+### 9. VENDORS
+### =========================================================
+
+### Get All Vendors
+GET http://localhost:8080/vendors
+
+
+### =========================================================
+### 10. PURCHASE ORDERS
+### =========================================================
+
+### Get All Purchase Orders
+GET http://localhost:8080/purchase-orders
+
+
+### =========================================================
+### 11. VENDOR BILLS
+### =========================================================
+
+### Get All Vendor Bills
+GET http://localhost:8080/vendor-bills
+
+
+### =========================================================
+### 12. CHART OF ACCOUNTS
+### =========================================================
+
+### Get All Chart of Accounts
+GET http://localhost:8080/chart-of-accounts
+
+
+### =========================================================
+### 13. JOURNAL ENTRIES
+### =========================================================
+
+### Get All Journal Entries
+GET http://localhost:8080/journal-entries
+
+
+### =========================================================
+### 14. BUDGET
+### =========================================================
+
+### Get All Budgets
+GET http://localhost:8080/budgets
+
+
+### =========================================================
+### 15. REPORTS
+### =========================================================
+
+### Budget Report
+GET http://localhost:8080/reports/budget
+
+
+### Profit and Loss Report
+GET http://localhost:8080/reports/profit-loss
+
+
+### Balance Sheet Report
+GET http://localhost:8080/reports/balance-sheet
+### Delete Vehicle ID 4
+DELETE http://localhost:8080/vehicles/4
+### Delete Vehicle ID 5
+DELETE http://localhost:8080/vehicles/5
+### Start parking session for Vehicle 12
+POST http://localhost:8080/parking-sessions/entry/12
+### Retrieve Vehicle 12
+POST http://localhost:8080/parking-sessions/exit/12
+### =========================================================
+### END OF SAFE DEMO FILE
+### =========================================================

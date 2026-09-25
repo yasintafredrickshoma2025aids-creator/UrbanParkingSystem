@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    ```
+    <title>Urban Parking Command Center</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #0b1120;
+            color: #e5e7eb;
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #111827;
+            border-right: 1px solid #243047;
+            padding: 24px 16px;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+            color: #38bdf8;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .menu-title {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            margin: 18px 10px 8px;
+        }
+
+        .menu-item {
+            display: block;
+            padding: 12px 14px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background: #172554;
+            color: #38bdf8;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 240px;
+            padding: 28px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .page-description {
+            color: #94a3b8;
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #10251d;
+            border: 1px solid #1f6f4a;
+            padding: 10px 15px;
+            border-radius: 20px;
+            color: #4ade80;
+            font-size: 13px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #4ade80;
+        }
+
+        /* ================= CARDS ================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: #111827;
+            border: 1px solid #243047;
+            border-radius: 12px;
+            padding: 20px;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: #334155;
+        }
+
+        .card-label {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .card-value {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .card-info {
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 7px;
+        }
+
+        .blue {
+            color: #38bdf8;
+        }
+
+        .green {
+            color: #4ade80;
+        }
+
+        .yellow {
+            color: #facc15;
+        }
+
+        .purple {
+            color: #a78bfa;
+        }
+
+        /* ================= CONTENT ================= */
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background: #111827;
+            border: 1px solid #243047;
+            border-radius: 12px;
+            padding: 22px;
+        }
+
+        .panel-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .panel-description {
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        /* ================= PARKING STRUCTURE ================= */
+
+        .floor {
+            border: 1px solid #263449;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .floor-header {
+            background: #172033;
+            padding: 10px 14px;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        .slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 12px;
+        }
+
+        .slot {
+            padding: 18px 10px;
+            text-align: center;
+            border-radius: 8px;
+            border: 1px solid;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+
+        .slot:hover {
+            transform: scale(1.02);
+        }
+
+        .slot.available {
+            background: #09251b;
+            border-color: #166534;
+            color: #4ade80;
+        }
+
+        .slot.occupied {
+            background: #301515;
+            border-color: #7f1d1d;
+            color: #f87171;
+        }
+
+        .slot small {
+            display: block;
+            margin-top: 5px;
+            color: #94a3b8;
+        }
+
+        /* ================= ROBOTICS ================= */
+
+        .robot {
+            border: 1px solid #263449;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .robot-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .robot-name {
+            font-weight: bold;
+        }
+
+        .robot-status {
+            color: #4ade80;
+            font-size: 12px;
+        }
+
+        .robot-info {
+            margin-top: 12px;
+            color: #94a3b8;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* ================= QUICK ACTIONS ================= */
+
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .action-button {
+            background: #172554;
+            border: 1px solid #1d4ed8;
+            color: #60a5fa;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+
+        .action-button:hover {
+            background: #1e3a8a;
+            transform: translateY(-2px);
+        }
+
+        /* ================= ACTIVITY ================= */
+
+        .activity {
+            margin-top: 20px;
+        }
+
+        .activity-item {
+            padding: 12px;
+            border-bottom: 1px solid #1f2937;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-time {
+            color: #64748b;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1000px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+    ```
+
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    ```
+    <div class="logo">URBAN PARK</div>
+
+    <div class="subtitle">
+        Automated Parking<br>
+        Command Center
+    </div>
+
+    <div class="menu-title">Operations</div>
+
+    <a class="menu-item active">Dashboard</a>
+    <a class="menu-item">Vehicles</a>
+    <a class="menu-item">Parking Slots</a>
+    <a class="menu-item">Parking Sessions</a>
+    <a class="menu-item">Vehicle Retrieval</a>
+
+    <div class="menu-title">Management</div>
+
+    <a class="menu-item">Robotic Shuttles</a>
+    <a class="menu-item">Customers</a>
+    <a class="menu-item">Billing</a>
+
+    <div class="menu-title">Finance</div>
+
+    <a class="menu-item">Accounting</a>
+    <a class="menu-item">Budget</a>
+    <a class="menu-item">Reports</a>
+    ```
+
+</aside>
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+    ```
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <div>
+
+            <div class="page-title">
+                Parking Command Center
+            </div>
+
+            <div class="page-description">
+                Real-time overview of the automated vertical parking facility
+            </div>
+
+        </div>
+
+        <div class="system-status">
+
+            <span class="status-dot"></span>
+
+            SYSTEM ONLINE
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= STATISTICS ================= -->
+
+    <section class="cards">
+
+        <div class="card">
+
+            <div class="card-label">
+                TOTAL VEHICLES
+            </div>
+
+            <div class="card-value blue" id="totalVehicles">
+                -
+            </div>
+
+            <div class="card-info">
+                Registered vehicles
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-label">
+                OCCUPIED SLOTS
+            </div>
+
+            <div class="card-value yellow" id="occupiedSlots">
+                -
+            </div>
+
+            <div class="card-info">
+                Vehicles currently parked
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-label">
+                AVAILABLE SLOTS
+            </div>
+
+            <div class="card-value green" id="availableSlots">
+                -
+            </div>
+
+            <div class="card-info">
+                Ready for parking
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-label">
+                ACTIVE SHUTTLES
+            </div>
+
+            <div class="card-value purple" id="activeShuttles">
+                -
+            </div>
+
+            <div class="card-info">
+                Robotic units online
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <section class="content-grid">
+
+
+        <!-- ================= PARKING STRUCTURE ================= -->
+
+        <div class="panel">
+
+            <div class="panel-title">
+                Vertical Parking Structure
+            </div>
+
+            <div class="panel-description">
+                Live parking-slot occupancy
+            </div>
+
+
+            <div class="floor">
+
+                <div class="floor-header">
+                    FLOOR 1
+                </div>
+
+                <div class="slots" id="parkingSlots">
+
+                    <div class="slot available">
+                        Loading...
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="floor">
+
+                <div class="floor-header">
+                    ROBOTIC DECK
+                </div>
+
+                <div class="slots">
+
+                    <div class="slot available">
+                        R01
+                        <small>READY</small>
+                    </div>
+
+                    <div class="slot available">
+                        R02
+                        <small>READY</small>
+                    </div>
+
+                    <div class="slot available">
+                        R03
+                        <small>READY</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= ROBOTICS ================= -->
+
+        <div class="panel">
+
+            <div class="panel-title">
+                Robotic Operations
+            </div>
+
+            <div class="panel-description">
+                Automated shuttle status
+            </div>
+
+
+            <div id="roboticShuttles">
+
+                <div class="robot">
+
+                    <div class="robot-header">
+
+                        <div class="robot-name">
+                            🤖 Loading...
+                        </div>
+
+                        <div class="robot-status">
+                            ● CHECKING
+                        </div>
+
+                    </div>
+
+                    <div class="robot-info">
+                        Connecting to robotic shuttle system...
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- QUICK ACTIONS -->
+
+            <div class="panel-title">
+                Quick Actions
+            </div>
+
+            <div class="actions">
+
+                <button
+                        class="action-button"
+                        onclick="registerVehicle()">
+                    + Register Vehicle
+                </button>
+
+                <button
+                        class="action-button"
+                        onclick="parkVehicle()">
+                    🚗 Park Vehicle
+                </button>
+
+                <button
+                        class="action-button"
+                        onclick="retrieveVehicle()">
+                    ↗ Retrieve Vehicle
+                </button>
+
+                <button
+                        class="action-button"
+                        onclick="viewBilling()">
+                    🧾 View Billing
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= ACTIVITY ================= -->
+
+    <section class="panel activity">
+
+        <div class="panel-title">
+            System Activity
+        </div>
+
+        <div class="panel-description">
+            Recent parking system activity
+        </div>
+
+        <div id="activityLog">
+
+            <div class="activity-item">
+
+                System dashboard loaded
+
+                <div class="activity-time">
+                    Waiting for live system data...
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+    ```
+
+</main>
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
